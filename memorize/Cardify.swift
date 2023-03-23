@@ -8,24 +8,32 @@
 import SwiftUI
 
 
-struct Cardify : ViewModifier{
+struct Cardify : AnimatableModifier{
     
-    var isFaceUp : Bool
-    var isMatched : Bool
+    init(isFaceUp : Bool){
+        rotation = isFaceUp ? 0 : 180
+    }
+    
+    var animatableData: Double{
+        get {rotation}
+        set {rotation = newValue}
+    }
+    var rotation : Double
     
     func body(content: Content) -> some View {
         ZStack{
             let shape = RoundedRectangle(cornerRadius: DrawingConstants.cornerRadius)
-            if isFaceUp || isMatched{
+            if rotation < 90{
                 shape.fill().foregroundColor(.white)
                 shape.strokeBorder (lineWidth: DrawingConstants.lineWidth)
             }
             else {
-                shape.fill().transition(AnyTransition.opacity.animation(.linear(duration: 5)))
+                shape.fill()
             }
             
-            content.opacity(isFaceUp ? 1 : 0)
+            content.opacity(rotation < 90 ? 1 : 0)
         }
+        .rotation3DEffect(Angle.degrees(rotation), axis: (0 ,1 , 0))
     }
     
     private struct DrawingConstants{
@@ -37,6 +45,6 @@ struct Cardify : ViewModifier{
 
 extension View{
     func cardify(faceUp : Bool , matched : Bool) -> some View{
-        self.modifier(Cardify(isFaceUp: faceUp, isMatched: matched))
+        self.modifier(Cardify(isFaceUp: faceUp))
     }
 }

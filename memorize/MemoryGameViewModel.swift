@@ -37,4 +37,12 @@ class MemoryGameViewModel : ObservableObject{
         model.choose(card)
     }
     
+    func shuffle(){
+        model.shuffle()
+    }
+    
+    func restart(){
+        model = MemoryGameViewModel.createMemoryGame()
+    }
+    
 }
