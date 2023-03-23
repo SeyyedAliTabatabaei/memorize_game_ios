@@ -18,7 +18,7 @@ class MemoryGameViewModel : ObservableObject{
 
     
     private static func createMemoryGame() -> MemoryGameModel<String> {
-        MemoryGameModel(numberOfPairsOfCard: 4 ) { pairIndex in
+        MemoryGameModel(numberOfPairsOfCard: 7 ) { pairIndex in
             emojis[pairIndex]
         }
     }
